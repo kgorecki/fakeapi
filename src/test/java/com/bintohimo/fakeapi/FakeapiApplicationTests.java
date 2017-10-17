@@ -32,10 +32,12 @@ public class FakeapiApplicationTests {
 
     @Test
     public void postEcho() throws Exception {
-        String content = "random string";
-        MvcResult result = mockMvc.perform(post("/v1/echo").content(content)).andExpect(status().isOk()).andReturn();
-        if (!result.getResponse().getContentAsString().equals(content))
-            throw new Exception("Wrong response!");
+        testEcho(RequestMethod.POST, "random string");
+    }
+
+    @Test
+    public void putEcho() throws Exception {
+        testEcho(RequestMethod.PUT, "random string");
     }
 
     @Test
@@ -53,6 +55,15 @@ public class FakeapiApplicationTests {
         testEchoUrl(RequestMethod.GET, "random_string");
     }
 
+    private void testEcho(RequestMethod rm, String content) throws Exception {
+        RequestBuilder rb = null;
+        if (rm == RequestMethod.PUT)
+            rb = put("/v1/echo").content(content);
+        else if (rm == RequestMethod.POST)
+            rb = post("/v1/echo").content(content);
+        echo(rb, content);
+    }
+
     private void testEchoUrl(RequestMethod rm, String content) throws Exception {
         RequestBuilder rb = null;
         if (rm == RequestMethod.GET)
@@ -61,6 +72,10 @@ public class FakeapiApplicationTests {
             rb = put("/v1/echo/" + content);
         else if (rm == RequestMethod.POST)
             rb = post("/v1/echo/" + content);
+        echo(rb, content);
+    }
+
+    private void echo(RequestBuilder rb, String content) throws Exception {
         MvcResult result = mockMvc.perform(rb).andExpect(status().isOk()).andReturn();
         if (!result.getResponse().getContentAsString().equals(content))
             throw new Exception("Wrong response!");
