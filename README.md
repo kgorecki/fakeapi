@@ -6,3 +6,5 @@ mvn clean install
 
 ## Running
 java -jar target/fakeapi-{version}.jar
+
+Hosted on GitHub, GitLab and Bitbucket - one of those will (should?) work in your organisation.
