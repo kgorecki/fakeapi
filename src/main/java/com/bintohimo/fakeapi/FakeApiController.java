@@ -5,9 +5,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/v1")
+@RequestMapping({"/v1", "/v1/basicauth"})
 public class FakeApiController {
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value = "/ok", method = RequestMethod.GET)
     public @ResponseBody
     ResponseEntity status() {
         return ResponseEntity.ok("ok");
