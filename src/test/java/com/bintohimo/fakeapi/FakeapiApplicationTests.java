@@ -3,6 +3,7 @@ package com.bintohimo.fakeapi;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -10,6 +11,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import java.util.ArrayList;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -24,35 +27,31 @@ public class FakeapiApplicationTests {
 
     @Autowired
     private MockMvc mockMvc;
+    @Value("${url.path}")
+    private String urlPath;
 
     @Test
-    public void getStatus() throws Exception {
-        mockMvc.perform(get("/v1")).andExpect(status().isOk());
+    public void get200() throws Exception {
+        mockMvc.perform(get(urlPath + "/get200")).andExpect(status().isOk());
     }
 
     @Test
-    public void postEcho() throws Exception {
-        testEcho(RequestMethod.POST, "random string");
+    public void get404() throws Exception {
+        mockMvc.perform(get(urlPath + "/get404")).andExpect(status().isNotFound());
     }
 
     @Test
-    public void putEcho() throws Exception {
-        testEcho(RequestMethod.PUT, "random string");
+    public void echo() throws Exception {
+        RequestMethod[] methodList = {RequestMethod.POST, RequestMethod.PUT};
+        for (int i = 0; i < methodList.length; i++)
+            testEcho(methodList[i], "random string");
     }
 
     @Test
-    public void postEchoUrl() throws Exception {
-        testEchoUrl(RequestMethod.POST, "random_string");
-    }
-
-    @Test
-    public void putEchoUrl() throws Exception {
-        testEchoUrl(RequestMethod.PUT, "random_string");
-    }
-
-    @Test
-    public void getEchoUrl() throws Exception {
-        testEchoUrl(RequestMethod.GET, "random_string");
+    public void echoUrl() throws Exception {
+        RequestMethod[] methodList = {RequestMethod.POST, RequestMethod.PUT, RequestMethod.GET};
+        for (int i = 0; i < methodList.length; i++)
+            testEchoUrl(methodList[i], "random_string");
     }
 
     private void testEcho(RequestMethod rm, String content) throws Exception {
