@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping({"${url.path}", "${url.path}/basicauth"})
+@RequestMapping({"${url.path}", "${url.path}/${url.path.basicauth}"})
 public class FakeApiController {
 
     @RequestMapping(value = "/get200", method = RequestMethod.GET)
