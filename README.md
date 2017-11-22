@@ -4,6 +4,9 @@ Sometimes you need to use some fake api and for some sercurity reasons you canno
 ## Installing
 mvn clean install
 
+## Testing
+mvn test
+
 ## Running
 java -jar target/fakeapi-{version}.jar
 
