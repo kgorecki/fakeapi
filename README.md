@@ -10,4 +10,10 @@ mvn test
 ## Running
 java -jar target/fakeapi-{version}.jar
 
+## Swagger
+http://localhost:8090/v2/api-docs
+
+## Swagger UI
+http://localhost:8090/swagger-ui.html
+
 Hosted on GitHub, GitLab and Bitbucket - one of those will (should?) work in your organisation.
